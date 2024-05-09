@@ -34,9 +34,17 @@ services:
         KEYCLOAK_ADMIN: admin
         KEYCLOAK_ADMIN_PASSWORD: Pa55w0rd
 
+        #logging
+        KC_LOG_LEVEL: WARN,org.keycloak.saml.SAMLRequestParser:debug,sun.security.krb5:debug,sun.security.spnego:debug
+        JAVA_OPTS_APPEND: -Dsun.security.krb5.debug=true -Dsun.security.spnego.debug=true -Dkeycloak.profile.feature.account_api=enabled
+
         #features
-        KC_FEATURES: token-exchange
-      command: start-dev
+        #KC_FEATURES: token-exchange
+      command: 
+        start-dev 
+        --spi-events-listener-jboss-logging-success-level=WARN 
+        --spi-events-listener-jboss-logging-error-level=WARN
+        --log-level=WARN,org.keycloak.saml.SAMLRequestParser:debug,sun.security.krb5:debug,sun.security.spnego:debug
       ports:
         - 8080:8080
       depends_on:

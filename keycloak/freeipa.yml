@@ -1,0 +1,52 @@
+version: "2"
+
+services:
+  ipa:
+    image: freeipa/freeipa-server:rocky-9-4.10.1
+    container_name: ipa
+    hostname: ipa.yourdomain.local
+    # restart: always
+    volumes:
+      - "/sys/fs/cgroup:/sys/fs/cgroup:ro"
+      - "/tmp/ipadata:/data:Z"
+    environment:
+      - PASSWORD=YOUR_PASSWORD
+      - DEBUG_TRACE=1
+      - DEBUG_NO_EXIT=1
+      # - IPA_SERVER_IP=172.16.30.18
+    command: ipa-server-install --domain='ipa.yourdomain.local' --realm='YOURDOMAIN.LOCAL' --no-ntp --setup-adtrust --setup-kra --enable-compat --netbios-name=YOUR_BIOS_NAME --setup-dns --forwarder='1.1.1.1' --forward-policy=only --unattended
+    # ports:
+    #   - "53:53"
+    #   - "80:80"
+    #   - "443:443"
+    #   - "389:389"
+    #   - "636:636"
+    #   - "88:88"
+    #   - "464:464"
+    #   - "88:88/udp"
+    #   - "53:53/udp"
+    #   - "464:464/udp"
+    # networks:
+    #   ipa_network:
+    #     ipv4_address: 172.16.30.18
+    # sysctls:
+    #   - net.ipv6.conf.all.disable_ipv6=0
+      
+# networks:
+#   ipa_network:
+#     driver: bridge
+#     ipam:
+#       driver: default
+#       config:
+#         - subnet: 172.16.30.16/28
+#           gateway: 172.16.30.17
+#           aux_addresses:
+#             dns: 172.16.30.18
+
+# volumes:
+#   ipa-data:
+#     driver: local
+#     driver_opts:
+#       type: 'none'
+#       o: 'bind'
+#       device: '/tmp/ipadata'

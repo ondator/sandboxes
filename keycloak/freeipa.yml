@@ -1,20 +1,23 @@
-version: "2"
+version: '3'
+
+volumes:
+  ipa-data:
 
 services:
   ipa:
-    image: freeipa/freeipa-server:rocky-9-4.10.1
+    image: freeipa/freeipa-server:almalinux-9-4.11.0
     container_name: ipa
-    hostname: ipa.yourdomain.local
+    environment:
+        PASSWORD: Pa55w0rd
+        DEBUG_TRACE: 1
+        DEBUG_NO_EXIT: 1
+    hostname: ipa.example.test
     # restart: always
     volumes:
-      - "/sys/fs/cgroup:/sys/fs/cgroup:ro"
-      - "/tmp/ipadata:/data:Z"
-    environment:
-      - PASSWORD=YOUR_PASSWORD
-      - DEBUG_TRACE=1
-      - DEBUG_NO_EXIT=1
+     #- "/sys/fs/cgroup:/sys/fs/cgroup:ro"
+      - "ipa-data:/data:Z"
       # - IPA_SERVER_IP=172.16.30.18
-    command: ipa-server-install --domain='ipa.yourdomain.local' --realm='YOURDOMAIN.LOCAL' --no-ntp --setup-adtrust --setup-kra --enable-compat --netbios-name=YOUR_BIOS_NAME --setup-dns --forwarder='1.1.1.1' --forward-policy=only --unattended
+    #command: ipa-server-install --realm='EXAMPLE.TEST' --no-ntp --netbios-name=EXAMPLE --setup-adtrust --setup-kra --enable-compat  --setup-dns --forwarder='1.1.1.1' --forward-policy=only --unattended
     # ports:
     #   - "53:53"
     #   - "80:80"

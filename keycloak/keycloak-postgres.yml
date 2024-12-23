@@ -3,6 +3,8 @@ version: '3'
 volumes:
   postgres_data:
       driver: local
+  postgres_data2:
+      driver: local
 
 services:
   postgres:
@@ -14,38 +16,76 @@ services:
         POSTGRES_USER: keycloak
         POSTGRES_PASSWORD: password
   keycloak:
-      image: quay.io/keycloak/keycloak:latest
+      image: bitnami/keycloak:latest
       environment:
         #KC_HEALTH_ENABLED: true
         #KC_METRICS_ENABLED: true
         KC_HTTP_ENABLED: true
-        KC_HOSTNAME_STRICT: false
+        KEYCLOAK_HOSTNAME_STRICT: false
         #KC_HOSTNAME: localhost
-        KC_HOSTNAME_URL: http://localhost:8080
-        KC_HOSTNAME_ADMIN_URL: http://localhost:8080
+        # keycloak should be in /etc/hosts
+        KEYCLOAK_HOSTNAME: http://keycloak:8080
+        KEYCLOAK_HOSTNAME_ADMIN: http://keycloak:8080
 
         #db
-        KC_DB: postgres
-        KC_DB_URL: jdbc:postgresql://postgres/keycloak
-        KC_DB_USERNAME: keycloak
-        KC_DB_PASSWORD: password
+        KEYCLOAK_DATABASE_HOST: postgres
+        KEYCLOAK_DATABASE_NAME: keycloak
+        KEYCLOAK_DATABASE_USER: keycloak
+        KEYCLOAK_DATABASE_PASSWORD: password
 
         #admin
         KEYCLOAK_ADMIN: admin
         KEYCLOAK_ADMIN_PASSWORD: Pa55w0rd
 
         #logging
-        KC_LOG_LEVEL: WARN,org.keycloak.saml.SAMLRequestParser:debug,sun.security.krb5:debug,sun.security.spnego:debug
-        JAVA_OPTS_APPEND: -Dsun.security.krb5.debug=true -Dsun.security.spnego.debug=true -Dkeycloak.profile.feature.account_api=enabled
+        KEYCLOAK_LOG_LEVEL: WARN,org.keycloak.saml.SAMLRequestParser:debug,sun.security.krb5:debug,sun.security.spnego:debug
+        KEYCLOAK_EXTRA_ARGS: -Dsun.security.krb5.debug=true -Dsun.security.spnego.debug=true -Dkeycloak.profile.feature.account_api=enabled
+        KEYCLOAK_EXTRA_ARGS_PREPENDED: --spi-events-listener-jboss-logging-success-level=WARN --spi-events-listener-jboss-logging-error-level=WARN
 
         #features
         #KC_FEATURES: token-exchange
-      command: 
-        start-dev 
-        --spi-events-listener-jboss-logging-success-level=WARN 
-        --spi-events-listener-jboss-logging-error-level=WARN
-        --log-level=WARN,org.keycloak.saml.SAMLRequestParser:debug,sun.security.krb5:debug,sun.security.spnego:debug
       ports:
         - 8080:8080
       depends_on:
         - postgres
+
+
+  postgres2:
+      image: postgres
+      volumes:
+        - postgres_data2:/var/lib/postgresql/data
+      environment:
+        POSTGRES_DB: keycloak
+        POSTGRES_USER: keycloak
+        POSTGRES_PASSWORD: password
+  keycloak2:
+      image: bitnami/keycloak:latest
+      environment:
+        #KC_HEALTH_ENABLED: true
+        #KC_METRICS_ENABLED: true
+        KC_HTTP_ENABLED: true
+        KEYCLOAK_HOSTNAME_STRICT: false
+        #KC_HOSTNAME: localhost
+        KEYCLOAK_HOSTNAME: http://keycloak2:8082
+        KEYCLOAK_HOSTNAME_ADMIN: http://keycloak2:8082
+
+        #db
+        KEYCLOAK_DATABASE_HOST: postgres2
+        KEYCLOAK_DATABASE_NAME: keycloak
+        KEYCLOAK_DATABASE_USER: keycloak
+        KEYCLOAK_DATABASE_PASSWORD: password
+
+        #admin
+        KEYCLOAK_ADMIN: admin
+        KEYCLOAK_ADMIN_PASSWORD: Pa55w0rd
+
+        #logging
+        KEYCLOAK_LOG_LEVEL: WARN,org.keycloak.saml.SAMLRequestParser:debug,sun.security.krb5:debug,sun.security.spnego:debug,org.keycloak.storage.ldap:trace
+        KEYCLOAK_EXTRA_ARGS: -Dsun.security.krb5.debug=true -Dsun.security.spnego.debug=true -Dkeycloak.profile.feature.account_api=enabled
+        KEYCLOAK_EXTRA_ARGS_PREPENDED: --spi-events-listener-jboss-logging-success-level=WARN --spi-events-listener-jboss-logging-error-level=WARN
+        #features
+        #KC_FEATURES: token-exchange      
+      ports:
+        - 8082:8080
+      depends_on:
+        - postgres2

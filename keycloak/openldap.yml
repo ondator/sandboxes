@@ -1,18 +1,18 @@
-version: '3'
-
 services:
   ldap:
-    image: osixia/openldap:1.5.0    
+    build: .  
+    pull_policy: build
     ports:      
       - "389:389"
       - "636:636"
     volumes:
-      - "./export.ldif:/container/service/slapd/assets/config/bootstrap/ldif/50-bootstrap.ldif"    
+      - "./seed:/container/service/slapd/assets/config/bootstrap/ldif/custom"    
     command: --copy-service --loglevel debug
-  ldapadmin:
-    image: osixia/phpldapadmin:0.9.0
-    ports:      
-      - "6443:443"
-    environment:
-      PHPLDAPADMIN_LDAP_HOSTS: ldap  
-    depends_on: ldap
+  # ldapadmin:
+  #   image: osixia/phpldapadmin:0.9.0
+  #   ports:      
+  #     - "6443:443"
+  #   environment:
+  #     PHPLDAPADMIN_LDAP_HOSTS: ldap  
+  #   depends_on: 
+  #   - ldap

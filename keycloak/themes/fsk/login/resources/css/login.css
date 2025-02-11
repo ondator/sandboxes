@@ -1,0 +1,263 @@
+@font-face {
+  font-family: "Proxima Nova";
+  src: url("../../../../../../assets/fonts/ProximaNova-Bold.woff")
+    format("woff");
+  font-weight: bold;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Proxima Nova";
+  src: url("../../../../../../assets/fonts/ProximaNova-Regular.woff")
+    format("woff");
+  font-weight: normal;
+  font-style: normal;
+}
+
+@font-face {
+  font-family: "Proxima Nova";
+  src: url("../../../../../../assets/fonts/ProximaNova-Semibold.woff")
+    format("woff");
+  font-weight: 600;
+  font-style: normal;
+}
+
+html,
+body,
+span,
+p,
+pre,
+a,
+img,
+strong,
+b,
+li,
+fieldset,
+label,
+section,
+form,
+input,
+button {
+  all: unset;
+}
+
+form {
+  font-family: Proxima Nova, arial, sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 15px;
+  letter-spacing: 0.1px;
+  line-height: 20px;
+}
+
+body {
+  font-family: Proxima Nova, arial, sans-serif;
+  letter-spacing: 0.1px;
+  overflow: hidden;
+}
+
+:root {
+  --theme-colorBrand: #0077FF;
+  --theme-colorBgSecondary: #F2F4F7;
+  --theme-colorTextSecondary: #656970;
+  --theme-colorBrandFaded: #B6CFEB;
+  --theme-colorHoverOnBrand: #0069E0;
+}
+
+.login-pf-page {
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--theme-colorBgSecondary);
+}
+
+.header-logo {
+  padding: 30px 0;
+  display: block;
+  text-align: center;
+}
+
+.card-pf {
+  width: 500px;
+  padding: 24px;
+  border-radius: 8px;
+  background-color: #fff;
+  box-shadow: 0 4px 8px rgba(46, 48, 51, 0.08);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  box-sizing: border-box;
+}
+
+.card-pf > * {
+  width: 100%;
+}
+
+.form {
+  width: 100%;
+}
+
+.form__control {
+  display: block;
+  margin-bottom: 24px;
+}
+
+.form__control--error {
+  color: var(--theme-colorBrand);
+  font-weight: 400;
+  font-size: 13px;
+  line-height: 20px;
+  letter-spacing: 0.1px;
+}
+
+.form__label {
+  color: var(--theme-colorTextSecondary);
+  display: block;
+  padding-bottom: 4px;
+}
+
+.form__input {
+  width: 100%;
+  background-color: #f9fafb;
+  border: 1px solid #e9ecf2;
+  border-radius: 4px;
+  display: flex;
+  flex-direction: column;
+  font-size: 15px;
+  height: 48px;
+  padding: 14px 12px;
+  box-sizing: border-box;
+}
+
+.form__input:hover {
+  border-color: var(--theme-colorBrandFaded);
+}
+
+.form__input:focus {
+  border-color: var(--theme-colorBrandFaded);
+  box-shadow: 0 0 0 1px var(--theme-colorBrandFaded);
+}
+
+.form__button {
+  width: 300px;
+  height: 48px;
+  padding: 14px 20px;
+  box-shadow: none;
+  text-shadow: none;
+  cursor: pointer;
+  color: #fff;
+  background-color: var(--theme-colorBrand);
+  touch-action: manipulation;
+  text-align: center;
+  border-radius: 4px;
+  user-select: none;
+  font-weight: 400;
+  font-size: 15px;
+  line-height: 20px;
+  letter-spacing: 0.1px;
+  box-sizing: border-box;
+  border: 1px solid transparent;
+}
+
+.form__button:hover {
+  background: var(--theme-colorHoverOnBrand);
+}
+
+.form__button:focus {
+  border: 1px solid #fff;
+  box-shadow: 0 0 0 2px var(--theme-colorBrandFaded);
+}
+
+#kc-form-buttons {
+  display: flex;
+  justify-content: center;
+  margin-top: 24px;
+}
+
+/* Social */
+.pf-c-button.pf-m-control {
+  border-color: rgba(230, 230, 230, 0.5);
+  cursor: pointer;
+  color: #06c;
+}
+
+.kc-social-links {
+  margin-top: 20px;
+}
+
+.kc-social-links li {
+  width: 100%;
+}
+
+.kc-social-provider-logo {
+  font-size: 23px;
+  width: 30px;
+  height: 25px;
+  float: left;
+}
+
+.kc-social-gray {
+  color: var(--pf-global--Color--200);
+}
+
+.kc-social-gray h2 {
+  font-size: 1em;
+}
+
+.kc-social-item {
+  margin-bottom: var(--pf-global--spacer--sm);
+  font-size: 15px;
+  text-align: center;
+}
+
+.kc-social-provider-name {
+  position: relative;
+}
+
+.kc-social-icon-text {
+  left: -15px;
+}
+
+.kc-social-grid {
+  display:grid;
+  grid-column-gap: 10px;
+  grid-row-gap: 5px;
+  grid-column-end: span 6;
+  --pf-l-grid__item--GridColumnEnd: span 6;
+}
+
+.kc-social-grid .kc-social-icon-text {
+  left: -10px;
+}
+
+.kc-login-tooltip {
+  position: relative;
+  display: inline-block;
+}
+
+.kc-social-section {
+  text-align: center;
+}
+
+.kc-social-section hr{
+  margin-bottom: 10px
+}
+
+.kc-login-tooltip .kc-tooltip-text{
+  top:-3px;
+  left:160%;
+  background-color: black;
+  visibility: hidden;
+  color: #fff;
+
+  min-width:130px;
+  text-align: center;
+  border-radius: 2px;
+  box-shadow:0 1px 8px rgba(0,0,0,0.6);
+  padding: 5px;
+
+  position: absolute;
+  opacity:0;
+  transition:opacity 0.5s;
+}

@@ -3,8 +3,6 @@ version: '3'
 volumes:
   postgres_data:
       driver: local
-  postgres_data2:
-      driver: local
 
 services:
   postgres:
@@ -37,9 +35,6 @@ services:
         KEYCLOAK_ADMIN: admin
         KEYCLOAK_ADMIN_PASSWORD: Pa55w0rd
 
-        #infinispan
-        KEYCLOAK_CACHE_TYPE: local
-
         #logging
         KEYCLOAK_LOG_LEVEL: WARN,org.keycloak.saml.SAMLRequestParser:debug,sun.security.krb5:debug,sun.security.spnego:debug
         KEYCLOAK_EXTRA_ARGS: -Dsun.security.krb5.debug=true -Dsun.security.spnego.debug=true -Dkeycloak.profile.feature.account_api=enabled
@@ -49,21 +44,8 @@ services:
         #KC_FEATURES: token-exchange
       ports:
         - 8080:8080
-      volumes:
-      - "./themes:/opt/bitnami/keycloak/themes/" 
-      - "./krb5.conf:/etc/krb5.conf"
       depends_on:
-        - postgres
-
-
-  postgres2:
-      image: postgres
-      volumes:
-        - postgres_data2:/var/lib/postgresql/data
-      environment:
-        POSTGRES_DB: keycloak
-        POSTGRES_USER: keycloak
-        POSTGRES_PASSWORD: password
+        - postgres  
   keycloak2:
       image: bitnami/keycloak:latest
       environment:
@@ -76,8 +58,8 @@ services:
         KEYCLOAK_HOSTNAME_ADMIN: http://keycloak2:8082
 
         #db
-        KEYCLOAK_DATABASE_HOST: postgres2
-        KEYCLOAK_DATABASE_NAME: keycloak
+        KEYCLOAK_DATABASE_HOST: postgres
+        KEYCLOAK_DATABASE_NAME: keycloak2
         KEYCLOAK_DATABASE_USER: keycloak
         KEYCLOAK_DATABASE_PASSWORD: password
 
@@ -85,18 +67,13 @@ services:
         KEYCLOAK_ADMIN: admin
         KEYCLOAK_ADMIN_PASSWORD: Pa55w0rd
 
-        #infinispan
-        KEYCLOAK_CACHE_TYPE: local
-
         #logging
         KEYCLOAK_LOG_LEVEL: WARN,org.keycloak.saml.SAMLRequestParser:debug,sun.security.krb5:debug,sun.security.spnego:debug,org.keycloak.storage.ldap:trace
         KEYCLOAK_EXTRA_ARGS: -Dsun.security.krb5.debug=true -Dsun.security.spnego.debug=true -Dkeycloak.profile.feature.account_api=enabled
         KEYCLOAK_EXTRA_ARGS_PREPENDED: --spi-events-listener-jboss-logging-success-level=WARN --spi-events-listener-jboss-logging-error-level=WARN
         #features
         #KC_FEATURES: token-exchange      
-      volumes:
-        - "./krb5.conf:/etc/krb5.conf"
       ports:
         - 8082:8080
       depends_on:
-        - postgres2
+        - postgres

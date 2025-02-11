@@ -25,3 +25,17 @@ objectclass: inetOrgPerson
 sn: Doe
 mail: alice.doe@example.org
 userpassword: password
+
+# Entry 4: ou=tuz,dc=example,dc=org
+dn: ou=tuz,dc=example,dc=org
+ou: tuz
+description: all tech accounts OU
+objectclass: organizationalunit
+
+# Entry 5: cn=keycloak2,ou=tuz,dc=example,dc=org
+dn: cn=keycloak2,ou=tuz,dc=example,dc=org
+cn: keycloak2
+description: keycloak2 tech account
+objectclass: inetOrgPerson
+sn: Keycloak
+userpassword: password

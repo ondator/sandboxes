@@ -11,7 +11,8 @@ olcAccess: {2}to attrs=krbPrincipalKey
   by * none
 -
 add: olcAccess
-olcAccess: {3}to dn.subtree="cn=krbContainer,dc=example,dc=org"
+olcAccess: {3}to dn.subtree="dc=example,dc=org"
   by dn.exact="uid=kdc-service,dc=example,dc=org" read
+  by dn.exact="cn=keycloak2,ou=tuz,dc=example,dc=org" read
   by dn.exact="uid=kadmin-service,dc=example,dc=org" write
   by * none

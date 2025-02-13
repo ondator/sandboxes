@@ -1,0 +1,46 @@
+services:
+  ldap:
+    build: 
+      dockerfile: ./ldap.Dockerfile
+    pull_policy: build
+    healthcheck:
+      test: ["CMD-SHELL", "ldapsearch -x -H ldapi:/// -b dc=example,dc=org -D 'cn=admin,dc=example,dc=org' -w admin"]
+      interval: 10s
+      retries: 5
+      start_period: 10s
+      timeout: 1s
+    ports:      
+      - "389:389"
+      - "636:636"
+    volumes:
+      - "./seed:/container/service/slapd/assets/config/bootstrap/ldif/custom"    
+      - "./krb5.conf:/etc/krb5.conf"
+    command: --copy-service --loglevel debug
+  ldapadmin:
+    image: osixia/phpldapadmin:0.9.0
+    ports:      
+      - "6443:443"
+    environment:
+      PHPLDAPADMIN_LDAP_HOSTS: ldap  
+    depends_on: 
+    - ldap
+
+    # Login DN: cn=admin,dc=example,dc=org
+    # Password: admin    
+  kdc:
+    build: 
+      dockerfile: ./kdc.Dockerfile
+    pull_policy: build
+    volumes:
+      - "./krb5-kdc.conf:/etc/krb5.conf"
+      - "./kdc.conf:/etc/krb5kdc/kdc.conf"
+      - "./kadm5.acl:/etc/krb5kdc/kadm5.acl"
+    ports:
+      - "88:88"      
+      - "750:750"      
+    command: --copy-service --loglevel debug
+    extra_hosts:
+      - "kdc.example.org=127.0.0.1"
+    depends_on: 
+      ldap:
+        condition: service_healthy

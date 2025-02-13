@@ -1,0 +1,15 @@
+version: 1
+
+dn: uid=kdc-service,dc=example,dc=org
+uid: kdc-service
+objectClass: account
+objectClass: simpleSecurityObject
+userPassword: password
+description: Account used for the Kerberos KDC
+
+dn: uid=kadmin-service,dc=example,dc=org
+uid: kadmin-service
+objectClass: account
+objectClass: simpleSecurityObject
+userPassword: password
+description: Account used for the Kerberos Admin server

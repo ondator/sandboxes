@@ -1,0 +1,50 @@
+# corrupted!!! If u wanna DC, use openldap/mitkrb-based from dc folder
+
+version: '3'
+
+volumes:
+  ipa-data:
+
+services:
+  ipa:
+    image: freeipa/freeipa-server:almalinux-9-4.11.0
+    privileged: true
+    container_name: ipa
+    environment:
+        PASSWORD: Pa55w0rd
+        DEBUG_TRACE: 1
+        DEBUG_NO_EXIT: 1
+        IPA_SERVER_IP: 172.20.0.2
+        IPA_SERVER_HOSTNAME: ipa.example.test
+    hostname: example
+    domainname: ipa.example.test
+    # restart: always
+    volumes:
+     #- "/sys/fs/cgroup:/sys/fs/cgroup:ro"
+      - "ipa-data:/data:Z"
+    command: ipa-server-install -U -r EXAMPLE.TEST --no-ntp --setup-dns --no-forwarders --ip-address 172.20.0.2 #--netbios-name=EXAMPLE --setup-adtrust --setup-kra --enable-compat --forwarder='1.1.1.1' --forward-policy=only
+    ports:
+      - "53:53"
+      - "80:80"
+      - "443:443"
+      - "389:389"
+      - "636:636"
+      - "88:88"
+      - "464:464"
+      - "88:88/udp"
+      - "53:53/udp"
+      - "464:464/udp"
+    # networks:
+    #   ipa_network:
+    #     ipv4_address: 172.20.0.2
+    sysctls:
+      - net.ipv6.conf.all.disable_ipv6=0
+      
+# networks:
+#   ipa_network:
+#     driver: bridge
+#     ipam:
+#       driver: default
+#       config:
+#         - subnet: 172.16.30.0/28
+#           gateway: 172.16.30.1

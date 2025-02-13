@@ -1,3 +1,5 @@
+# corrupted!!! If u wanna DC, use openldap/mitkrb-based from dc folder
+
 version: '3'
 
 volumes:

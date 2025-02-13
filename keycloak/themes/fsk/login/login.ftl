@@ -5,7 +5,7 @@
     <#elseif section = "form">
 
     <header class="header-logo">
-        <img src="${url.resourcesPath}/img/logo.png" alt="logo" />
+        <img src="${url.resourcesPath}/img/keycloak-logo.png" alt="logo" />
     </header>
 
     <div id="kc-form" class="form">

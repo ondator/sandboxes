@@ -1,0 +1,5 @@
+version: '3'
+
+include:
+  - ../dc/openldap.yml
+  - keycloak-postgres.yml
